@@ -85,7 +85,7 @@ public class DBHelper2 {
         List<Driver> results = new LinkedList<Driver>();
 
         for(Driver d : drivers) {
-            if (d.getLicencePlate().toLowerCase().contains(theLicence.toLowerCase())) {
+            if (d.getLicence().toLowerCase().contains(theLicence.toLowerCase())) {
                 results.add(d);
             }
         }
