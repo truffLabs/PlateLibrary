@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     //database to pull data from textfile
-    private DBHelper mPlateDB;
+    private DBHelper2 mPlateDB;
 
     //where user types search
     private EditText mPlateSearchText;
@@ -28,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private ArrayAdapter mAdapter;
 
+    /**
+     * Initializes all variables and prepares for interaction.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPlateDB = new DBHelper(this);
+        mPlateDB = new DBHelper2(this);
         mPlateSearchText = (EditText) findViewById(R.id.plateSearchText);
 
         mListView = (ListView) findViewById(R.id.stuNameListView);
@@ -47,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(mAdapter);
     }
 
+    /**
+     * Currently unused
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -54,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Currently not handled
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -78,19 +92,19 @@ public class MainActivity extends AppCompatActivity {
     public void searchPlate(View view) {
         Activity activity = this;
         String plate = mPlateSearchText.getText().toString();
-        Map<String, String> results = mPlateDB.getStuName(plate);
+        List<Driver> results = mPlateDB.getStuName(plate);
 
-        //Convert map data to a list
-        final List<String> data = new LinkedList<String>();
-        for(String key: results.keySet()) {
-            data.add(key + " - " + results.get(key));
-        }
+//        //Convert map data to a list
+//        final List<String> data = new LinkedList<String>();
+//        for(Driver d: results) {
+//            data.add(key + " - " + results.get(key));
+//        }
 
         //Use array adapter to populate lower area
-        mAdapter = new ArrayAdapter<String>(this,
+        mAdapter = new ArrayAdapter<Driver>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
-                data);
+                results);
         mListView.setAdapter(mAdapter);
 
 
@@ -124,21 +138,19 @@ public class MainActivity extends AppCompatActivity {
     public void searchName(View view) {
         Activity activity = this;
         String name = mPlateSearchText.getText().toString();
-        Map<String, String> results = mPlateDB.getPlates(name);
+        List<Driver> results = mPlateDB.getPlates(name);
 
-        //Convert map data to a list
-        final List<String> data = new LinkedList<String>();
-        for(String key: results.keySet()) {
-            data.add(key + " - " + results.get(key));
-        }
+//        //Convert map data to a list
+//        final List<String> data = new LinkedList<String>();
+//        for(String key: results.keySet()) {
+//            data.add(key + " - " + results.get(key));
+//        }
 
-        //Use array adapter to populate lower area
-        mAdapter = new ArrayAdapter<String>(this,
+        mAdapter = new ArrayAdapter<Driver>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
-                data);
+                results);
         mListView.setAdapter(mAdapter);
-
 
 
         //TODO
